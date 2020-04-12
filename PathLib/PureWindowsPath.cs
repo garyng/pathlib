@@ -366,6 +366,12 @@ namespace PathLib
         }
 
         /// <inheritdoc/>
+        public override bool IsFloating()
+        {
+            return Drive.StartsWith(PathUtils.DriveLabelIdentifier.ToString());
+        }
+
+        /// <inheritdoc/>
         public override bool Match(string pattern)
         {
             return PathUtils.Glob(

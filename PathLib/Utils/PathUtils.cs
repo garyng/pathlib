@@ -64,7 +64,7 @@ namespace PathLib.Utils
         /// A char representing that the path is "floating", eg: =LABEL:\
         /// </summary>
         public const char DriveLabelIdentifier = '=';
-        public static readonly Regex DriveLabelRegex = new Regex(@"=(.+?:\\?)", RegexOptions.Compiled);
+        public static readonly Regex DriveLabelRegex = new Regex(@"(=(.+?):)\\?", RegexOptions.Compiled);
 
         internal static readonly string[] PathSeparatorsForNormalization = {
             "/",
@@ -271,7 +271,7 @@ namespace PathLib.Utils
                 {
                     // =D:\folder
                     // =DRIVE LABEL:\folder
-                    return DriveLabelRegex.Match(path).Captures[0].Value;
+                    return GetDriveLabel(path, includeSeparator: true);
                 }
                 return path.Substring(0, len);
             }
@@ -298,6 +298,26 @@ namespace PathLib.Utils
             return c == separator[0]
                    || (path.Length > 1 && path[1] == DriveDelimiter)
                    || DriveLabelRegex.IsMatch(path);
+        }
+
+        /// <summary>
+        /// Returns the drive label.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="includeSeparator"></param>
+        /// <returns></returns>
+        public static string GetDriveLabel(string path, bool includeSeparator = false)
+        {
+            var groups = DriveLabelRegex.Match(path).Groups;
+            if (groups.Count != 3) return "";
+            if (includeSeparator) // include = and :
+            {
+                return groups[1].Value;
+            }
+            else
+            {
+                return groups[2].Value;
+            }
         }
 
         /// <summary>

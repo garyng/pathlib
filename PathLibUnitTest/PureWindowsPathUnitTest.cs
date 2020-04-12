@@ -25,6 +25,19 @@ namespace PathLib.UnitTest
         }
 
         [TestMethod]
+        public void GetDriveLabel_OfFloatingPath_ReturnLabel()
+        {
+            // Arrange
+            var path = new PureWindowsPath("=DRIVE LABEL:/Program Files/");
+
+            // Act
+            var actual = path.DriveLabel;
+
+            // Assert
+            Assert.AreEqual("DRIVE LABEL", actual);
+        }
+
+        [TestMethod]
         public void GetDrive_OfFloatingPath_WithSpecialChars()
         {
             // Arrange

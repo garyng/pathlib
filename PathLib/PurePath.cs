@@ -30,6 +30,7 @@ namespace PathLib
         protected PurePath()
         {
             Drive = "";
+            DriveLabel = "";
             Root = "";
             Dirname = "";
             Basename = PathUtils.CurrentDirectoryIdentifier;
@@ -56,6 +57,7 @@ namespace PathLib
             {
                 rawPath = NormalizeSeparators(paths[0]);
                 Drive = "";
+                DriveLabel = "";
                 Root = "";
                 Dirname = "";
                 Basename = "";
@@ -64,6 +66,7 @@ namespace PathLib
             else  // no paths
             {
                 Drive = "";
+                DriveLabel = "";
                 Root = "";
                 Dirname = "";
                 Basename = PathUtils.CurrentDirectoryIdentifier;
@@ -93,6 +96,7 @@ namespace PathLib
             string extension)
         {
             Drive = drive ?? "";
+            DriveLabel = PathUtils.GetDriveLabel(drive) ?? "";
             Root = root ?? "";
             Dirname = dirname ?? "";
             Basename = basename ?? "";
@@ -115,6 +119,7 @@ namespace PathLib
         private void Assimilate(IPurePath path)
         {
             Drive = path.Drive ?? "";
+            DriveLabel = path.DriveLabel ?? "";
             Root = path.Root ?? "";
             Dirname = path.Dirname ?? "";
             Basename = path.Basename ?? "";
@@ -129,6 +134,7 @@ namespace PathLib
             }
 
             Drive = parser.ParseDrive(rawPath) ?? "";
+            DriveLabel = PathUtils.GetDriveLabel(rawPath) ?? "";
             Root = parser.ParseRoot(rawPath) ?? "";
 
             if (Drive.Length + Root.Length >= rawPath.Length)
@@ -180,6 +186,9 @@ namespace PathLib
 
         /// <inheritdoc/>
         public string Drive { get; protected set; }
+
+        /// <inheritdoc/>
+        public string DriveLabel { get; protected set; }
 
         /// <inheritdoc/>
         public string Root { get; protected set; }
@@ -304,6 +313,9 @@ namespace PathLib
         }
         private string _cachedPosix;
         private readonly object _toPosixLock = new object();
+
+        /// <inheritdoc/>
+        public abstract bool IsFloating();
 
         /// <inheritdoc/>
         public TPath Join(params string[] paths)

@@ -313,6 +313,12 @@ namespace PathLib
         }
 
         /// <inheritdoc/>
+        public override bool IsFloating()
+        {
+            return false;
+        }
+
+        /// <inheritdoc/>
         public override bool Match(string pattern)
         {
             return PathUtils.Glob(pattern, ToString(), IsAbsolute());

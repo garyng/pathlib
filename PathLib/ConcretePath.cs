@@ -434,6 +434,13 @@ namespace PathLib
         }
 
         /// <inheritdoc/>
+        public string DriveLabel
+        {
+            get { return PurePath.DriveLabel; }
+
+        }
+
+        /// <inheritdoc/>
         public string Anchor
         {
             get { return PurePath.Anchor; }
@@ -455,6 +462,12 @@ namespace PathLib
         public bool IsReserved()
         {
             return PurePath.IsReserved();
+        }
+
+        /// <inheritdoc/>
+        public bool IsFloating()
+        {
+            return PurePath.IsFloating();
         }
 
         /// <inheritdoc/>

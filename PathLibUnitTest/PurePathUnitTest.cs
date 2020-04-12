@@ -150,6 +150,12 @@ namespace PathLib.UnitTest
                     "A mock should not be used to test this.");
             }
 
+            public override bool IsFloating()
+            {
+                throw new NotImplementedException(
+                    "A mock should not be used to test this.");
+            }
+
             public override bool Match(string pattern)
             {
                 throw new NotImplementedException(

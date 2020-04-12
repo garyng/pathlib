@@ -68,6 +68,12 @@ namespace PathLib
         string Drive { get; }
 
         /// <summary>
+        /// The drive label of the path (=DRIVE:\ => DRIVE). Windows only.
+        /// Empty string on Posix.
+        /// </summary>
+        string DriveLabel { get; }
+
+        /// <summary>
         /// Concatenation of drive and root (eg. c:\)
         /// </summary>
         string Anchor { get; }
@@ -92,6 +98,13 @@ namespace PathLib
         /// </summary>
         /// <returns></returns>
         bool IsReserved();
+
+        /// <summary>
+        /// Return true if the path uses drive label (that starts with '='),
+        /// instead of drive letter. Windows only.
+        /// </summary>
+        /// <returns></returns>
+        bool IsFloating();
 
         /// <summary>
         /// Join the current path with the provided paths, in turn.

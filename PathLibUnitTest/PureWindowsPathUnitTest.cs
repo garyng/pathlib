@@ -9,6 +9,36 @@ using System.Text;
 namespace PathLib.UnitTest
 {
     [TestClass]
+    public class PureWindowsFloatingPathUnitTest
+    {
+        [TestMethod]
+        public void GetDrive_OfFloatingPath_ReturnLabel()
+        {
+            // Arrange
+            var path = new PureWindowsPath("=DRIVE LABEL:/Program Files/");
+
+            // Act
+            var actual = path.Drive;
+
+            // Assert
+            Assert.AreEqual("=DRIVE LABEL:", actual);
+        }
+
+        [TestMethod]
+        public void GetDrive_OfFloatingPath_WithSpecialChars()
+        {
+            // Arrange
+            var path = new PureWindowsPath(@"=<>""*\|LABEL:/Program Files/");
+
+            // Act
+            var actual = path.Drive;
+
+            // Assert
+            Assert.AreEqual(@"=<>""*\|LABEL:", actual);
+        }
+    }
+
+    [TestClass]
     public class PureWindowsPathUnitTest
     {
         [TestMethod]
@@ -141,6 +171,19 @@ namespace PathLib.UnitTest
         {
             // Arrange
             var path = new PureWindowsPath("c:/Program Files/");
+
+            // Act
+            var actual = path.Drive;
+
+            // Assert
+            Assert.AreEqual("c:", actual);
+        }
+
+        [TestMethod]
+        public void GetDrive_WithDriveNoSeparator_ReturnsDriveName()
+        {
+            // Arrange
+            var path = new PureWindowsPath("c:Program Files/");
 
             // Act
             var actual = path.Drive;

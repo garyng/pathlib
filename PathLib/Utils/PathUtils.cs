@@ -53,12 +53,19 @@ namespace PathLib.Utils
         /// from filenames.
         /// </summary>
         public const char ExtensionDelimiter = '.';
-
+        
         /// <summary>
         /// A string representing the character delimiting drives from the
         /// remaining path.
         /// </summary>
         public const char DriveDelimiter = ':';
+
+        /// <summary>
+        /// A char representing that the path is "floating", eg: =LABEL:\
+        /// </summary>
+        public const char DriveLabelIdentifier = '=';
+        public static readonly Regex DriveLabelRegex = new Regex(@"=(.+?:\\?)", RegexOptions.Compiled);
+
         internal static readonly string[] PathSeparatorsForNormalization = {
             "/",
             @"\"
@@ -260,6 +267,12 @@ namespace PathLib.Utils
                     if(path.Length >= 3 && path[2] == separator[0])
                         len++;
                 }
+                else if (path[0] == DriveLabelIdentifier)
+                {
+                    // =D:\folder
+                    // =DRIVE LABEL:\folder
+                    return DriveLabelRegex.Match(path).Captures[0].Value;
+                }
                 return path.Substring(0, len);
             }
         }
@@ -282,8 +295,9 @@ namespace PathLib.Utils
             }
 
             char c = path[0];
-            return (c == separator[0] ||
-                (path.Length > 1 && path[1] == DriveDelimiter));
+            return c == separator[0]
+                   || (path.Length > 1 && path[1] == DriveDelimiter)
+                   || DriveLabelRegex.IsMatch(path);
         }
 
         /// <summary>

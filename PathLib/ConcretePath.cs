@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using PathLib.Utils;
+using System.Linq;
 
 namespace PathLib
 {
